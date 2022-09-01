@@ -1,15 +1,13 @@
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-const TodoContext = React.createContext();
-
-// Esta funcion TodoProvider, sera de puente para llegar al consumer desde el provider
-function TodoProvider(props) {
+function useTodos(props) {
     const {
         item: todos,
         saveItem: saveTodos,
         loading,
-        error  
+        error,
+        sincronizeItems: sincronizeTodos
       } = useLocalStorage('TODOS_V1', []);
       
       const [searchValue, setSearchValue] = React.useState('');
@@ -62,8 +60,7 @@ function TodoProvider(props) {
       console.log('render luego use effect')
       */
     
-    return (
-        <TodoContext.Provider value={{
+    return {
             loading,
             error,
             totalTodos,
@@ -75,11 +72,9 @@ function TodoProvider(props) {
             completeTodo,
             deleteTodo,
             openModal,
-            setOpenModal
-        }}>
-            {props.children}
-        </TodoContext.Provider>
-    );
+            setOpenModal,
+            sincronizeTodos
+        };
 }
 
-export { TodoContext, TodoProvider };
+export { useTodos };

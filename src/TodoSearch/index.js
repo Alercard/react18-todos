@@ -1,10 +1,8 @@
 import React from "react";
-import { TodoContext } from "../TodoContext";
 import './TodoSearch.css';
 
-function TodoSearch() {
+function TodoSearch({ searchValue, setSearchValue, loading }) {
 
-  const { searchValue, setSearchValue } = React.useContext(TodoContext);
   // React.useState son React hooks
   // [nombreVariable, fxParaSetear]
   // Cada cambio es una actualizacion en el render por lo que hay que tener cuidado
@@ -22,6 +20,7 @@ function TodoSearch() {
       placeholder="Buscar" 
       value={searchValue}
       onChange={onSearchValueChange}
+      disabled={loading}
     />
   );
 }

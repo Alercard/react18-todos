@@ -1,6 +1,7 @@
 import React from "react";
 
 function useLocalStorage(itemName, initialValue) {
+    const [sincronizedItem, setSincronizedItem] = React.useState(true);
     const [error, setError] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const [item, setItem] = React.useState(initialValue);
@@ -20,12 +21,13 @@ function useLocalStorage(itemName, initialValue) {
           
           setItem(parsedItem);
           setLoading(false)
+          setSincronizedItem(true)
             
         } catch (error) {
           setError(error)
         }
       }, 3000);
-    })
+    }, [sincronizedItem])
   
     const saveItem = (newItem) => {
       try {
@@ -39,13 +41,18 @@ function useLocalStorage(itemName, initialValue) {
       }
     }
   
+    const sincronizeItems = () => {
+      setLoading(true);
+      setSincronizedItem(false);
+    }
     // cuando un state tiene mas de 2 argumentos, la convencion
     // indica que mejor se devuelva un objeto
     return {
       item,
       saveItem,
       loading,
-      error
+      error,
+      sincronizeItems
     };
   
   
